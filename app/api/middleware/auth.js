@@ -21,8 +21,8 @@ const auth = (req,res,next)=>{
         
         
         next();
-        // any error inside try this code will be run and error
-        // 
+        // any error inside try this code will be run an error
+        
     } catch (error){
         console.log(error)
         res.status(401).json({message:"Unauthorized User"})
