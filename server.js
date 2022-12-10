@@ -1,3 +1,4 @@
+// Create the app server
 const express = require('express'); 
 const logger = require('morgan');
 const bodyParser = require('body-parser');
@@ -9,7 +10,8 @@ const users = require('./app/api/routes/users');
 const comments = require('./app/api/routes/comment');
 const likes = require('./app/api/routes/like');
 
-// connection to mongodb
+// Get the default connection
+// Bind connection to error event (to get notification of connection errors)
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use(express.json());

@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 
-//Define a schema
+//Define a schema for user registration and login 
 const Schema = mongoose.Schema;
 const UserSchema = new Schema({
  name: {

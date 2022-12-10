@@ -1,12 +1,11 @@
-# version of node to use
-FROM node:8
-# define working directory for docker
-WORKDIR /usr/src/app
-# copy all our source code into the working directory
-COPY . .
+FROM alpine
 # install npm dependencies and pm2
-RUN npm install --only=production && npm install -g pm2
+RUN apk add --update nodejs npm
+# copy all our source code into the working directory
+COPY . /src
+# define working directory for docker
+WORKDIR /src
 # expose port 3000 for our server to run on
 EXPOSE 3000
-# command to start our server
-CMD [ "pm2-runtime", "start", "server.js", "-i", "max" ]
+#to start our server
+ENTRYPOINT ["node", "./app.js"]

@@ -1,3 +1,5 @@
+// Route to register and login 
+
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/users');

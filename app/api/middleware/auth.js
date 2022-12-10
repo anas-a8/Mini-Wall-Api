@@ -3,15 +3,17 @@ const SECRET_KEY = "POSTSAPI"
 
 const auth = (req,res,next)=>{
     try {
-        //authorization get the token from headers(will get it when we login) 
-        //then will store on token
+        //get the token out of the header
         let token = req.headers.authorization;
         console.log(token);
+
         if(token){
-            // 
+        // retrieve the authorization header and parse out the
+        // JWT using the split function
             token = token.split(" ")[1];
-            console.log(token);
-            // it will verfy if the user has token and secret key 
+            console.log(token); 
+            
+        // verify that this was a token signed with OUR secret key
             let user = jwt.verify(token,SECRET_KEY)
             req.userId = user.id;
         }
@@ -21,7 +23,7 @@ const auth = (req,res,next)=>{
         
         
         next();
-        // any error inside try this code will be run an error
+    // otherwise send back a status code of 401 (Unauthorized User) with a message
         
     } catch (error){
         console.log(error)

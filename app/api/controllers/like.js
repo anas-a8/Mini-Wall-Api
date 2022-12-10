@@ -1,6 +1,8 @@
+// Importing modules
 const likeModel = require('../models/like');
 const postModel = require('../models/post');
 
+// Read like from request body
 const do_like = async (req , res)=> {
     const id = req.params.id;
     const {like} = req.body;
@@ -10,7 +12,8 @@ const do_like = async (req , res)=> {
         postId : id,
         userId : req.userId
     });
-// if the id same dont allow
+    // Compare the post id and user id if they dont match add the comment
+    // Otherwise send error message the user cant like his post 
     const post = await postModel.findOne({id});
     const likes = await likeModel.findOne({postId:id,userId:req.userId});
     console.log(likes)
@@ -18,7 +21,7 @@ const do_like = async (req , res)=> {
         console.log(req.userId)
         console.log(post.userId)
         if (req.userId != post.userId){
-            //if {like} = req.body .. false remove if cant find you must like first
+            // When read remove from request body the like will be removed from the post 
             if (like == false){
                 try{
                     await likeModel.findByIdAndRemove(likes._id);
@@ -40,11 +43,11 @@ const do_like = async (req , res)=> {
     }
 }
 
-
+// Show how many likes in particular post
 const showlikesNumber = async (req , res)=> {
     const id = req.params.id;
     const like = await likeModel.find({postId:id});
-    //.length how many likes
+    // Count how many likes in particular post
     res.status(201).json(like.length);
 }
 

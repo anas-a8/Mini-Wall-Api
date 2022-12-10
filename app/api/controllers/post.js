@@ -1,9 +1,10 @@
+// Importing modules
 const postModel = require('../models/post');
 const likeModel = require('../models/like');
 
-
+// Add post
 const createpost = async (req , res)=> {
-
+// Read title and description from request body
   const {title,description} = req.body;
 
   const newPost = new postModel({
@@ -21,20 +22,23 @@ const createpost = async (req , res)=> {
   }
 }
 
+// Read posts 
 const getPosts = async (req , res)=> {
   try {
-    //will give us all posts in database
+    //Search all posts on the database and display them
     const posts = await postModel.find({})
 
-    // we must sort the posts by likes number
+ 
+    // Sort the posts by likes number in descending order 
     //empty list we fill it later 
     const postlikesnumber = [];
 
     for(const i in posts){
       const like = await likeModel.find({postId:posts[i].id})
+      //adds new items to the end of an array  
       postlikesnumber.push({"post":await postModel.find({_id:posts[i].id}),"numberlike":like.length});
     }
-
+    // Sort the posts by likes number in descending order 
     res.status(200).json(postlikesnumber.sort(function(a, b){return b.numberlike - a.numberlike}));
     
   } catch (error) {
@@ -44,6 +48,7 @@ const getPosts = async (req , res)=> {
 
 }
 
+//Update post
 const updatepost = async (req , res)=> {
   const id = req.params.id;
   const {title,description} = req.body;
@@ -55,6 +60,7 @@ const updatepost = async (req , res)=> {
   }
 
   try {
+    //Search for particular  post by id to update it
     await postModel.findByIdAndUpdate(id,newPost,{new:true});
     res.status(200).json(newPost);
   } catch (error) {
@@ -64,9 +70,11 @@ const updatepost = async (req , res)=> {
 
 }
 
+// Delete post
 const deletepost = async (req , res)=> {
   const id = req.params.id;
   try {
+//Search for particular post by id to delete it
     const post = await postModel.findByIdAndRemove(id);
     res.status(202).json(post);
   } catch (error) {
