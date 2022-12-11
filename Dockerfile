@@ -8,4 +8,4 @@ WORKDIR /src
 # expose port 3000 for our server to run on
 EXPOSE 3000
 #to start our server
-ENTRYPOINT ["node", "./app.js"]
+ENTRYPOINT ["node", "./server.js"]
